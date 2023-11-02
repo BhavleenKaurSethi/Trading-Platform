@@ -82,7 +82,7 @@ def get_trade_list(db_connection):
     return trades_list
 
 #Search for trade (specifying one or more of the following: share_id, broker_id, date_range)
-def search_trade(db_connection):
+def search_trade(db_connection, share_id, broker_id, date_range_min, date_range_max):
 
     query = """
     SELECT t.trade_id, t.share_id, b.broker_id, 
@@ -95,41 +95,19 @@ def search_trade(db_connection):
     WHERE 1 = 1 
     """
 
-    try:
-        share_id = int(input('Enter share_id to search trade or press enter'))
+    if (share_id):
         query += f" AND share_id = {share_id}"
 
-    except UnboundLocalError:
-        print('No condition assigned for share_id')
-    except:
-        print(share_id, 'is an Invalid Input')
-    
-
-    try:
-        broker_id = int(input('Enter broker_id to search trade or press enter'))
+    if (broker_id):
         query += f" AND t.broker_id = {broker_id}"
-    except UnboundLocalError:
-        print('No condition assigned for broker_id')
-    except:
-        print(broker_id, 'is an Invalid Input')
-
-    try:
-        date_range_min = input('Enter minimum limit for date_range to search trade or press enter')
+    
+    if (date_range_min):
         date_range_min = datetime.strptime(date_range_min, '%Y-%m-%d').date()
         query += f" AND transaction_time >= '{date_range_min}'"
-    except UnboundLocalError:
-        print('No condition assigned for minimum date range')
-    except:
-        print(date_range_min, 'is an Invalid Input')
-
-    try:
-        date_range_max = input('Enter maximum limit for date_range to search trade or press enter')
+    
+    if (date_range_max):
         date_range_max = datetime.strptime(date_range_max, '%Y-%m-%d').date()
         query += f" AND transaction_time <= '{date_range_max}'"
-    except UnboundLocalError:
-        print('No condition assigned for maximum date range')
-    except:
-        print(date_range_max, 'is an Invalid Input')
 
     cursor = db_connection.cursor()
     cursor.execute(query)

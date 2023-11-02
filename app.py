@@ -1,10 +1,21 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from query_implementation import *
 import mysql.connector
 
 app = FastAPI()
 
-db_connection = mysql.connector.connect(user='root', password='Harjas1703.',
+origins = [
+    "http://localhost:3000",
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+db_connection = mysql.connector.connect(user='root', password="password123",
                               host='127.0.0.1',
                               database='trading_platform')
 

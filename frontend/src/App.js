@@ -7,8 +7,8 @@ import {
 import { Breadcrumb, Layout, Menu, theme, Typography } from 'antd';
 import QueryBrokers from './components/QueryBrokers';
 import QueryShares from './components/QueryShares';
-import QueryByTradeId from './components/QueryByTradeId';
-import QueryByShareId from './components/QueryByShareId';
+import QueryTrades from './components/QueryTrades';
+import QueryBySearch from './components/QueryBySearch';
 import ExportByShareId from './components/ExportByShareId';
 import ExportByBrokerId from './components/ExportByBrokerId';
 import ExportByDateRange from './components/ExportByDateRange';
@@ -22,8 +22,8 @@ const App = () => {
   const componentMapping = {
     queryBrokers: <QueryBrokers />,
     queryShares: <QueryShares />,
-    queryByTradeId: <QueryByTradeId />,
-    queryByShareId: <QueryByShareId />,
+    queryTrades: <QueryTrades />,
+    queryBySearch: <QueryBySearch />,
     exportByShareId: <ExportByShareId />,
     exportByBrokerId: <ExportByBrokerId />,
     exportByDateRange: <ExportByDateRange />,
@@ -40,10 +40,10 @@ const App = () => {
       icon: <UserOutlined />,
       label: 'Query',
       children: [
-        { key: 'queryBrokers', label: 'List Brokers' },
+        { key: 'queryBrokers', label: 'List all Brokers' },
         { key: 'queryShares', label: 'List all Shares' },
-        { key: 'queryByTradeId', label: 'Lookup trade by trade id' },
-        { key: 'queryByShareId', label: 'Search for trade' },
+        { key: 'queryTrades', label: 'List all Trades' },
+        { key: 'queryBySearch', label: 'Search for trade' },
       ],
     },
     {
@@ -84,7 +84,7 @@ const App = () => {
   };
 
   return (
-    <Layout style={{ height: '100vh' }}>
+    <Layout style={{ minHeight: '100vh' }}>
       <Header
         style={{
           display: 'flex',

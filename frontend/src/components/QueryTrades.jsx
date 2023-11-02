@@ -2,7 +2,7 @@ import { React, useEffect, useState } from 'react';
 import { Table } from 'antd';
 import axios from 'axios';
 
-const QueryShares = () => {
+const QueryTrades = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -11,7 +11,7 @@ const QueryShares = () => {
 
   async function fetchData() {
     try {
-      const response = await axios.get('http://localhost:8000/query/2');
+      const response = await axios.get('http://localhost:8000/query/3');
       setData(response.data);
     } catch (error) {
       console.error('Error:', error);
@@ -40,4 +40,4 @@ const QueryShares = () => {
   return <Table dataSource={dataSource} columns={columns} />;
 };
 
-export default QueryShares;
+export default QueryTrades;

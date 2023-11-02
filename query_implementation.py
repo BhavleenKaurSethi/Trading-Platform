@@ -19,7 +19,6 @@ Query
 '''
 
 import mysql.connector 
-import pandas as pd
 from datetime import datetime
 
 # List Brokers
@@ -30,7 +29,14 @@ def get_brokers_list(db_connection):
     FROM brokers;
     """
 
-    brokers_list = pd.read_sql_query(query, db_connection)
+    cursor = db_connection.cursor()
+    cursor.execute(query)
+    header = [row[0] for row in cursor.description]
+    brokers = cursor.fetchall()
+    cursor.close()
+
+    # Concat header with fetch rows
+    brokers_list = [header] + brokers
     return brokers_list
 
 # List all Shares (should include company name)
@@ -42,7 +48,14 @@ def get_shares_list(db_connection):
     INNER JOIN companies;
     """
 
-    shares_list = pd.read_sql_query(query, db_connection)
+    cursor = db_connection.cursor()
+    cursor.execute(query)
+    header = [row[0] for row in cursor.description]
+    shares = cursor.fetchall()
+    cursor.close()
+
+    # Concat header with fetch rows
+    shares_list = [header] + shares
     return shares_list
 
 # Lookup trade by trade id (shows all trade details)
@@ -58,7 +71,14 @@ def get_trade_list(db_connection):
     INNER JOIN stock_exchanges AS s ON t.stock_ex_id = s.stock_ex_id;
     """
 
-    trades_list = pd.read_sql_query(query, db_connection)
+    cursor = db_connection.cursor()
+    cursor.execute(query)
+    header = [row[0] for row in cursor.description]
+    trades = cursor.fetchall()
+    cursor.close()
+
+    # Concat header with fetch rows
+    trades_list = [header] + trades
     return trades_list
 
 #Search for trade (specifying one or more of the following: share_id, broker_id, date_range)
@@ -111,5 +131,13 @@ def search_trade(db_connection):
     except:
         print(date_range_max, 'is an Invalid Input')
 
-    filtered_trades_list = pd.read_sql_query(query, db_connection)
-    return filtered_trades_list
+    cursor = db_connection.cursor()
+    cursor.execute(query)
+    header = [row[0] for row in cursor.description]
+    trades = cursor.fetchall()
+    cursor.close()
+
+    # Concat header with fetch rows
+    trades_list = [header] + trades
+
+    return trades_list

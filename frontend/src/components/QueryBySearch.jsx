@@ -16,8 +16,8 @@ const QueryBySearch = () => {
     try {
       const response = await axios.get('http://localhost:8000/query/4', {
         params: {
-          share_id,
-          broker_id,
+          share_id: share_id ? share_id : undefined,
+          broker_id: broker_id ? broker_id : undefined,
           date_range_min: startDate
             ? startDate.format('YYYY-MM-DD')
             : undefined,

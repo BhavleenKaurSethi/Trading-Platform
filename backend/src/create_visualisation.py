@@ -21,14 +21,19 @@ import matplotlib.pyplot as plt
 def get_trades_per_broker(db_connection):
 
     query = "SELECT * FROM trades"
+    filename = 'trades_per_broker.png'
     trades = pd.read_sql_query(query, db_connection)
     trades_broker_id = trades.groupby('broker_id')['trade_id'].count()
     ax = sns.histplot(data=trades_broker_id, bins=10)
     ax.set(xlabel='Number of Trades', ylabel='Number of Brokers', title='Number of Trades per Broker')
+    plt.savefig(filename)
+
+    return filename
 
 def get_shares_prices(db_connection):
 
     query = "SELECT * FROM trades"
+    filename = 'prices_per_shares.png'
     trades = pd.read_sql_query(query, db_connection)
     sns.lineplot(
         data=trades,
@@ -46,13 +51,18 @@ def get_shares_prices(db_connection):
     plt.xlabel('Transaction Time', fontsize=14)
     plt.ylabel('Price Total', fontsize=14)
     plt.legend(title='Share ID', fontsize=12, title_fontsize=12)
+    plt.savefig(filename)
 
-    plt.show()
+    return filename
 
 def get_trades_stock_ex(db_connection):
 
     query = "SELECT * FROM trades"
+    filename = 'trades_per_stocks.png'
     trades = pd.read_sql_query(query, db_connection)
     trades_stock_ex_id = trades.groupby('stock_ex_id')['trade_id'].count()
     plt.pie(trades_stock_ex_id, labels=trades_stock_ex_id.index, autopct='%1.1f%%', startangle=140)
     plt.title('Proportion of Trades by Exchange', fontsize=16)
+    plt.savefig(filename)
+
+    return filename

@@ -18,7 +18,6 @@ Query
 5) Return to main menu
 '''
 
-import mysql.connector 
 from datetime import datetime
 
 # List Brokers

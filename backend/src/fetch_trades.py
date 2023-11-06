@@ -14,73 +14,116 @@ Export Trade Data
 4) Return to Main menu
 '''
 
-import mysql.connector 
-import pandas as pd
+import csv
 from datetime import datetime
 
-def fethch_trade_share_id(db_connection):
-    try:
-        share_id = int(input('Enter share_id to search for a trade or press Enter: '))
+def fetch_trade_share_id(db_connection, share_id):
 
-        # Create a query
-        query = f"SELECT * FROM trades WHERE share_id = {share_id}"
+    query = """
+    SELECT t.trade_id, t.share_id, b.broker_id, 
+        CONCAT(b.first_name, ' ', b.last_name) as full_name,
+        t.stock_ex_id, s.name, t.transaction_time, 
+        t.share_amount, t.price_total
+    FROM trades AS t
+    INNER JOIN brokers AS b ON t.broker_id = b.broker_id
+    INNER JOIN stock_exchanges AS s ON t.stock_ex_id = s.stock_ex_id
+    WHERE 1 = 1 
+    """
 
-    except:
-        print('Not a valid input.')
-        print('Displaying all trade details')
-        query = "SELECT * FROM trades"
+    filename = 'trade_filtered_by_share_id.csv'
 
-    finally:
+    if (share_id):
+        query += f" AND share_id = {share_id}"
 
-        # Use Pandas to read the query results
-        result = pd.read_sql_query(query, db_connection)
+    cursor = db_connection.cursor()
+    cursor.execute(query)
+    header = [row[0] for row in cursor.description]
+    trades = cursor.fetchall()
+    cursor.close()
         
-        # Display the result
-        return result
-
-
-def fethch_trade_broker_id(db_connection):
-    try:
-        broker_id = int(input('Enter broker_id to search for a trade or press Enter: '))
-
-        # Create a query
-        query = f"SELECT * FROM trades WHERE broker_id = {broker_id}"
-
-    except:
-        print('Not a valid input.')
-        print('Displaying all trade details')
-        query = "SELECT * FROM trades"
-
-    finally:
-
-        # Use Pandas to read the query results
-        result = pd.read_sql_query(query, db_connection)
+    # Save the result
+    with open(filename, 'w') as f:
+     
+        # using csv.writer method from CSV package
+        write = csv.writer(f)
         
-        # Display the result
-        return result
+        write.writerow(header)
+        write.writerows(trades)
 
-def fethch_trade_date_range(db_connection):
-    try:
-        date_range_min = input('Enter minimum limit for date_range to search trade or press enter')
+    return filename
+
+
+def fetch_trade_broker_id(db_connection, broker_id):
+
+    query = """
+    SELECT t.trade_id, t.share_id, b.broker_id, 
+        CONCAT(b.first_name, ' ', b.last_name) as full_name,
+        t.stock_ex_id, s.name, t.transaction_time, 
+        t.share_amount, t.price_total
+    FROM trades AS t
+    INNER JOIN brokers AS b ON t.broker_id = b.broker_id
+    INNER JOIN stock_exchanges AS s ON t.stock_ex_id = s.stock_ex_id
+    WHERE 1 = 1 
+    """
+
+    filename = 'trade_filtered_by_broker_id.csv'
+
+    if (broker_id):
+        query += f" AND broker_id = {broker_id}"
+
+    cursor = db_connection.cursor()
+    cursor.execute(query)
+    header = [row[0] for row in cursor.description]
+    trades = cursor.fetchall()
+    cursor.close()
+        
+    # Save the result
+    with open(filename, 'w') as f:
+     
+        # using csv.writer method from CSV package
+        write = csv.writer(f)
+        
+        write.writerow(header)
+        write.writerows(trades)
+
+    return filename
+
+def fetch_trade_date_range(db_connection, date_range_min, date_range_max):
+    
+    query = """
+    SELECT t.trade_id, t.share_id, b.broker_id, 
+        CONCAT(b.first_name, ' ', b.last_name) as full_name,
+        t.stock_ex_id, s.name, t.transaction_time, 
+        t.share_amount, t.price_total
+    FROM trades AS t
+    INNER JOIN brokers AS b ON t.broker_id = b.broker_id
+    INNER JOIN stock_exchanges AS s ON t.stock_ex_id = s.stock_ex_id
+    WHERE 1 = 1 
+    """
+
+    filename = 'trade_filtered_by_transaction_time.csv'
+
+    if (date_range_min):
         date_range_min = datetime.strptime(date_range_min, '%Y-%m-%d').date()
-
-        date_range_max = input('Enter maximum limit for date_range to search trade or press enter')
+        query += f" AND transaction_time >= '{date_range_min}'"
+    
+    if (date_range_max):
         date_range_max = datetime.strptime(date_range_max, '%Y-%m-%d').date()
+        query += f" AND transaction_time <= '{date_range_max}'"
 
-        # Create a query
-        query = f"SELECT * FROM trades \
-                WHERE transaction_time between '{date_range_min}' and '{date_range_max}'"
-
-    except:
-        print(date_range_min)
-        print('Not a valid range.')
-        print('Displaying all trade details')
-        query = "SELECT * FROM trades"
-
-    finally:
-
-        # Use Pandas to read the query results
-        result = pd.read_sql_query(query, db_connection)
+    cursor = db_connection.cursor()
+    cursor.execute(query)
+    header = [row[0] for row in cursor.description]
+    trades = cursor.fetchall()
+    cursor.close()
         
-        # Display the result
-        return result
+    # Save the result
+    with open(filename, 'w') as f:
+     
+        # using csv.writer method from CSV package
+        write = csv.writer(f)
+        
+        write.writerow(header)
+        write.writerows(trades)
+
+    return filename

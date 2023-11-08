@@ -8,7 +8,9 @@ import mysql.connector
 app = FastAPI()
 
 origins = [
-    "http://localhost:3000",
+    "https://my-react-app-7fft7bnqha-ts.a.run.app",
+    "http://localhost:3000",  
+    "http://localhost:8000",  
 ]
 app.add_middleware(
     CORSMiddleware,

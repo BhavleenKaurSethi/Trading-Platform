@@ -15,7 +15,7 @@ RUN pip install -r requirements.txt
 COPY . /app
 
 # Expose the port on which the application will run
-EXPOSE 80
+EXPOSE 8080
 
 # Define environment variable
 ENV NAME app.py

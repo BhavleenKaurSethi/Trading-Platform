@@ -19,9 +19,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-db_connection = mysql.connector.connect(user='root', password="password123",
-                              host='127.0.0.1',
-                              database='trading_platform')
+db_connection = mysql.connector.connect(unix_socket= 'cloudsql/trading-platform-404001:us-central1:trade-db',
+                                        user= 'root',
+                                        password= 'Password123',
+                                        database= 'trading_platform')
+
 
 @app.get("/query/{option}")
 async def read_item(option: int, share_id: int | None = None,

@@ -15,7 +15,27 @@ Export Trade Data
 '''
 
 import csv
-from datetime import datetime
+import os
+from datetime import datetime, timedelta  
+from google.cloud import storage
+from google.oauth2 import service_account
+
+credentials = service_account.Credentials.from_service_account_file(
+    './trading-platform-404001-c56c24689187.json'
+)
+
+# Function to upload file to GCS and return the blob's public URL
+def upload_to_gcs(bucket_name, source_file_name, destination_blob_name):
+    """Uploads a file to the bucket and make it publicly readable."""
+    storage_client = storage.Client(credentials=credentials)
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob(destination_blob_name)
+
+    blob.upload_from_filename(source_file_name)
+    # Generate a signed URL for the blob that expires in one hour
+    url = blob.generate_signed_url(expiration=timedelta(hours=1))
+
+    return url
 
 def fetch_trade_share_id(db_connection, share_id):
 
@@ -40,6 +60,9 @@ def fetch_trade_share_id(db_connection, share_id):
     header = [row[0] for row in cursor.description]
     trades = cursor.fetchall()
     cursor.close()
+
+    bucket_name = 'trading_platform'  
+    destination_blob_name = f"csv/{filename}" 
         
     # Save the result
     with open(filename, 'w') as f:
@@ -50,11 +73,19 @@ def fetch_trade_share_id(db_connection, share_id):
         write.writerow(header)
         write.writerows(trades)
 
-    return filename
+     # Upload the file
+    public_url = upload_to_gcs(bucket_name, filename, destination_blob_name)
+    
+    # Optionally, remove the local file if you don't need to keep it
+    os.remove(filename)
 
+    return public_url
+
+
+# This is just a modification for the fetch_trade_broker_id function
+# You would need to make similar changes to the fetch_trade_date_range function as well.
 
 def fetch_trade_broker_id(db_connection, broker_id):
-
     query = """
     SELECT t.trade_id, t.share_id, b.broker_id, 
         CONCAT(b.first_name, ' ', b.last_name) as full_name,
@@ -68,25 +99,32 @@ def fetch_trade_broker_id(db_connection, broker_id):
 
     filename = 'trade_filtered_by_broker_id.csv'
 
-    if (broker_id):
-        query += f" AND broker_id = {broker_id}"
+    if broker_id:
+        query += f" AND t.broker_id = {broker_id}"
 
     cursor = db_connection.cursor()
     cursor.execute(query)
     header = [row[0] for row in cursor.description]
     trades = cursor.fetchall()
     cursor.close()
-        
+
+    bucket_name = 'trading_platform'  
+    destination_blob_name = f"csv/{filename}"
+
     # Save the result
-    with open(filename, 'w') as f:
-     
+    with open(filename, 'w', newline='') as f:
         # using csv.writer method from CSV package
         write = csv.writer(f)
-        
         write.writerow(header)
         write.writerows(trades)
 
-    return filename
+    # Upload the file to GCS
+    public_url = upload_to_gcs(bucket_name, filename, destination_blob_name)
+    
+    # Optionally, remove the local file if you don't need to keep it
+    os.remove(filename)
+
+    return public_url
 
 def fetch_trade_date_range(db_connection, date_range_min, date_range_max):
     
@@ -101,13 +139,13 @@ def fetch_trade_date_range(db_connection, date_range_min, date_range_max):
     WHERE 1 = 1 
     """
 
-    filename = 'trade_filtered_by_transaction_time.csv'
+    filename = 'trade_filtered_by_date_range.csv'
 
-    if (date_range_min):
+    if date_range_min:
         date_range_min = datetime.strptime(date_range_min, '%Y-%m-%d').date()
         query += f" AND transaction_time >= '{date_range_min}'"
     
-    if (date_range_max):
+    if date_range_max:
         date_range_max = datetime.strptime(date_range_max, '%Y-%m-%d').date()
         query += f" AND transaction_time <= '{date_range_max}'"
 
@@ -116,14 +154,21 @@ def fetch_trade_date_range(db_connection, date_range_min, date_range_max):
     header = [row[0] for row in cursor.description]
     trades = cursor.fetchall()
     cursor.close()
-        
+
+    bucket_name = 'trading_platform'  
+    destination_blob_name = f"csv/{filename}"
+
     # Save the result
-    with open(filename, 'w') as f:
-     
+    with open(filename, 'w', newline='') as f:
         # using csv.writer method from CSV package
         write = csv.writer(f)
-        
         write.writerow(header)
         write.writerows(trades)
 
-    return filename
+    # Upload the file to GCS
+    public_url = upload_to_gcs(bucket_name, filename, destination_blob_name)
+    
+    # Optionally, remove the local file if you don't need to keep it
+    os.remove(filename)
+
+    return public_url

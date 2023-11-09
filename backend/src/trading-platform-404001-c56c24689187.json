@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "trading-platform-404001",
+  "private_key_id": "c56c24689187e04b8ec494c7562c9b62771cd313",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC6entRbelSsIje\nU7IJWn8q7cziaiNo8GmuFUD84/dY9vJfdTBEABbLTJUobr0V9yNkXKL0aMzAamqt\nsN0KrAJSSD7klYzxa1m6WzfpAIzQVQfOzGe0RyXKlN9N03e1ds5fOyVvXEZEKjdY\n4HnTo+78fcnD7cM0/vfK+DeRrdCmTa2aFIepMqZQ3A6dS4rGbb/inRe8b5Pk5tWw\ntlNdtShrmzQj089dHB2vD5jd92imK3674IparbR97pT9mVWZUwKIG2yh4OBqhMtO\ntffkDrGOgGGpvLhVtoEVrxkP43kISZ6DKYnxVBX92SA5oYN+qON4THXP+mrgTrst\nUOYI+TwbAgMBAAECggEAGefIAouX/UJu+8vOu4Pp5Kcnw6W7s5P/v7eje+juGgV8\nWDcpya3lfL/v0gUdmX6Srm+RZ7i4sQZXjuI3Yt3QbhPWljS8YWa+Dqh7ajqxqoNq\n0+y2KhI0NXdcVNh1adfOWuZsOz3WDm7QROAyVxdlV4g1+P+qaE3/UyALwDN6/TnS\nNead6uiMi6Ve3ohQfu2831s/QFUMoeHH/7WOMJFIhmvbTSjCw7/EG9vD8JHVVnPu\nrpqYOrfD+ixbqHgBpVxrGXFY9YwTrDVvJdwOGCZfc1Zuhls6fsJHq+7GerZE0d5j\nHF2OIrcC80588qFw/mjpnT1no1mmukn0pIzMrITuWQKBgQD0memdGWlYM4Pnma11\nl5LjPMlNrhRDaO5HhIxDS1sBqyTtGmsF1I2w6o7dCAFfWLmj3ORmACEWXMI4RjhF\nwdYmjv+8gCjpTo1mEXr40CowmCaNVq3k/6EvJzTrGpPxpo0MUAZOyygkmlzRvb/U\nMTHQ52cYCmEE7qa3Ze79IUvsZwKBgQDDKypn5imd7Zn9y5AWnDhJVRiFmXNKhAUZ\nfFyCmqqm58eYNHnIRcKR5QCCgI2KkuiWDM9tzyNU+fUTnPdyFjV45Zc6s9lt8HRo\n2U0RiVIq7YszLvOLoAgmA4211O9Dqyq4m3A+Kz9h2B45cEbFms/0UMtvY+q29Hog\nmG5QKA0iLQKBgF2Iwam+fucog+c7f/Y4qQXWR9A5oiwI4x1cFVriZQGlVXCJqqVH\nG4uslkb1ebjhL9P2cyyCHiT0AZ0NVRVvwxlpk2ecxog47p86TgD5cTi15gAkRkkM\na7GhV34T4sEEhGlR7KeSzl343UejPMjCqx8MbgLmbSU6sWvuQc5wPh0/AoGAOIsJ\n9x4Ekp+izJesQBC0cfJ4b0Rc1YrYG2EfQCtlI4PlHKCfY7lqPHB3LFfoKeyT+9zs\nP6kSWG0uZqdEPUZX6ZXCsZwncyWF5FaIcHszVgKKIKMKpjoQAktnQ/XT9+vgLanC\n5BANheBiKUvxBRDsDKFXvwbYmnbL5yOiWhCwdWUCgYEAoP9ssHncXC7xqPddxrgd\nmygDaoooJgPtBUn7JJ+wkrVPt21d8LZY76e/Fi1T2zdahym5Ebky569LaFaE3tD3\nk0D7leWaokhZXT2Z3WV2aM9Bm1wjTxkf9NfmhV8/r2jqDDLF4QwNSNVHRVTuphAc\n2GqKKJAzObrFQEiP5hOMUJc=\n-----END PRIVATE KEY-----\n",
+  "client_email": "storage@trading-platform-404001.iam.gserviceaccount.com",
+  "client_id": "118004793797702842570",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/storage%40trading-platform-404001.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

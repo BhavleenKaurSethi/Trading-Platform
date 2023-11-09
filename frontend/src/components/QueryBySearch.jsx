@@ -14,16 +14,19 @@ const QueryBySearch = () => {
     setLoading(true);
 
     try {
-      const response = await axios.get('http://localhost:8000/query/4', {
-        params: {
-          share_id: share_id ? share_id : undefined,
-          broker_id: broker_id ? broker_id : undefined,
-          date_range_min: startDate
-            ? startDate.format('YYYY-MM-DD')
-            : undefined,
-          date_range_max: endDate ? endDate.format('YYYY-MM-DD') : undefined,
-        },
-      });
+      const response = await axios.get(
+        'https://backend-7fft7bnqha-ts.a.run.app/query/4',
+        {
+          params: {
+            share_id: share_id ? share_id : undefined,
+            broker_id: broker_id ? broker_id : undefined,
+            date_range_min: startDate
+              ? startDate.format('YYYY-MM-DD')
+              : undefined,
+            date_range_max: endDate ? endDate.format('YYYY-MM-DD') : undefined,
+          },
+        }
+      );
 
       setData(response.data);
     } catch (error) {

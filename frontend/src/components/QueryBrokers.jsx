@@ -11,7 +11,7 @@ const QueryBrokers = () => {
 
   async function fetchData() {
     try {
-      const response = await axios.get('http://localhost:8000/query/1');
+      const response = await axios.get('https://backend-7fft7bnqha-ts.a.run.app/query/1');
       setData(response.data);
     } catch (error) {
       console.error('Error:', error);

@@ -1,0 +1,8 @@
+# Ignore Python bytecode files
+__pycache__/
+
+# Ignore local development settings
+*.env
+
+# Ignore system or IDE files
+.DS_Store

@@ -10,7 +10,7 @@ resource "google_cloud_run_service" "default" {
   template {
     spec {
       containers {
-        image = "gcr.io/trading-platform-404001/my-react-app"
+        image = "gcr.io/trading-platform-404001/frontend"
 
         resources {
           limits = {

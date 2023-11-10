@@ -75,12 +75,13 @@ async def read_item(option: int, share_id: int | None = None,
     return 'Invalid option'
 
 @app.get("/report/{option}")
-async def read_item(option: int, db: mysql.connector.connection = Depends(db_connection)):
+async def read_item(option: int, share_id: int | None = None,
+                    db: mysql.connector.connection = Depends(db_connection)):
    
     if option == 1:
         return get_trades_per_broker(db)
     if option == 2:
-        return get_shares_prices(db)
+        return get_shares_prices(db, share_id)
     if option == 3:
         return get_trades_stock_ex(db)
     return 'Invalid option'

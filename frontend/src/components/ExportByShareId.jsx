@@ -1,26 +1,68 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Input, Space, Button } from 'antd';
+import axios from 'axios';
 
 const ExportByShareId = () => {
-  const handleDownload = (url, filename) => {
-    // Create a new anchor element
-    const anchor = document.createElement('a');
-    anchor.href = url;
-    anchor.download = filename;
-    document.body.appendChild(anchor);
-    anchor.click(); // Trigger the download
-    document.body.removeChild(anchor); // Clean up
-  };
+  const [share_id, setShareId] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  // URL and filename you get from the backend
-  const url =
-    'https://storage.googleapis.com/trading_platform/csv/trade_filtered_by_date_range.csv?Expires=1699541976&GoogleAccessId=storage%40trading-platform-404001.iam.gserviceaccount.com&Signature=gt%2FaH3XqoaXbxC3tZQa42lFUZ4%2B9u8IS4UoQR49P72%2FdFZCAaaOUADgjhvuL6ofOPbtQryTyU6p0aigFg2cdARZfSQGrAvcbIQNsYBUjPmArRXaC%2FFXmyAIr5t9eA1e3EVXhfsDYQnr2clXyKExUiEVFsNqgOORDeLEGkL%2FKtE4d4znXWCoA2kfgUKOBCnN7EWuBs1M4KeEUbiL5GbjgIJrBNyg8PEyN9wsQ%2FY4OaC2VbkoRCsuMw103IZkUT32FzAcgx%2FbM5l3aHto3bty7QZrfuKmQGmFRyAyGYeNBPjLLc%2B5AhtnJmjcYlwpLElMn8czSWXaYoxe536ERFN2GIA%3D%3D';
   const filename = 'trade_filtered_by_share_id.csv';
 
+  const handleDownload = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        'https://backend-7fft7bnqha-ts.a.run.app/export/1',
+        {
+          params: {
+            share_id: share_id ? share_id : undefined,
+          },
+        }
+      );
+
+      const downloadUrl = response.data;
+
+      // Trigger the download using the URL returned by the backend
+      const anchor = document.createElement('a');
+      anchor.href = downloadUrl;
+      anchor.setAttribute('download', filename); // Set the filename
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor); // Clean up the DOM
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div>
-      <button onClick={() => handleDownload(url, filename)}>
-        Download CSV
-      </button>
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <Space.Compact
+        size="large"
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          width: '60%',
+          marginBottom: '20px',
+        }}
+      >
+        <Input
+          placeholder="share id"
+          style={{ width: '25%' }}
+          value={share_id}
+          onChange={(e) => setShareId(e.target.value)}
+        />
+        <Button
+          type="primary"
+          onClick={handleDownload}
+          loading={loading}
+          style={{ width: '25%' }}
+        >
+          Download CSV
+        </Button>
+      </Space.Compact>
+      {loading && <div>downloading...</div>}
     </div>
   );
 };

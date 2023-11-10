@@ -65,11 +65,11 @@ const App = () => {
         },
         {
           key: 'reportingSharePrice',
-          label: 'Share price history for a specified share_id',
+          label: 'Share price history',
         },
         {
           key: 'reportingProportionOfTrades',
-          label: 'Proportion of trades traded on each exchange',
+          label: ' Trades proportion on exchange',
         },
       ],
     },
@@ -135,7 +135,7 @@ const App = () => {
           <Content
             style={{
               padding: '0 24px',
-              minHeight: 280,
+              minHeight: 500,
             }}
           >
             {componentMapping[activeMenuItem]}
